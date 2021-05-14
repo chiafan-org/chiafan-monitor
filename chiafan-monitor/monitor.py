@@ -5,8 +5,9 @@ import re
 
 
 class Machine(object):
-    def __init__(self, ip):
+    def __init__(self, ip, port = 5008):
         self.ip = ip
+        self.port = port
 
 
     def __repr__(self):
@@ -14,7 +15,7 @@ class Machine(object):
 
 
     def inspect(self):
-        r = requests.get(url = f'http://{self.ip}:5000/status')
+        r = requests.get(url = f'http://{self.ip}:{self.port}/status')
         return r.json()
     
 
@@ -29,7 +30,11 @@ class Monitor(object):
 
 
     def add_machine(self, machine_address):
-        self.machines.append(Machine(ip = machine_address))
+        address = machine_address.split(':')
+        if len(address) == 1:
+            self.machines.append(Machine(ip = machine_address))
+        elif len(address) == 2:
+            self.machines.append(Machine(ip = address[0], port = address[1]))
 
 
     def inspect(self):
