@@ -1,0 +1,31 @@
+<form class="ui form attached segment orange" action="/basic_info" method="post">
+  <h2 class="ui dividing header">Servers</h2>
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>Machine</th>
+        <th>Pipeline</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in machines %}
+      <tr>
+        <td> {{ item.name }} </td>
+        <td>
+          {% if item.pipeline == 'working' %}
+          <span class="ui green label"> {{ item.pipeline }} </span>
+          {% elif item.pipeline == 'dead' %}
+          <span class="ui red label"> {{ item.pipeline }} </span>
+          {% elif item.pipeline == 'draining' %}
+          <span class="ui orange label"> {{ item.pipeline }} </span>
+          {% elif item.pipeline == 'stopped' %}
+          <span class="ui grey label"> {{ item.pipeline }} </span>
+          {% else %}
+          <span class="ui blue label"> {{ item.pipeline }} </span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>

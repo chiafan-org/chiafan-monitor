@@ -14,8 +14,10 @@ app.secret_key = b'\xb7\x0b\x86\xc0+\x1a&\xd6 \xdfx\\\x90O\xac\xae'
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    payload = Monitor().inspect()
     return render_template('index.html',
-                           jobs = Monitor().inspect()['jobs'])
+                           jobs = payload['jobs'],
+                           machines = payload['machines'])
 
 
 @click.command()
