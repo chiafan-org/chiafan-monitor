@@ -12,7 +12,7 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'chiafan=chiafan_monitor.app:main',
+            'chiafan-monitor=chiafan_monitor.app:main',
         ],
     },
     python_requires='>=3.6',
