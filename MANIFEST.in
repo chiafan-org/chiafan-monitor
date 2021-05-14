@@ -1,0 +1,2 @@
+recursive-include chiafan_monitor/templates *
+recursive-include chiafan_monitor/static *
