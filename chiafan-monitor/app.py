@@ -23,7 +23,7 @@ def home():
               type = click.STRING, help = 'machine addresses')
 @click.option('--port', default = '5000',
               type = click.STRING, help = 'Specify the port to serve this')
-def main(machines):
+def main(machines, port):
     for machine in machines:
         Monitor().add_machine(machine)
     app.run(host = '0.0.0.0', port = port)
