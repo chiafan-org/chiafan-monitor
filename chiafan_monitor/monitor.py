@@ -68,6 +68,22 @@ class Monitor(object):
             self.machines.append(Machine(ip = address[0], port = address[1]))
 
 
+    def drain(self, machine_address):
+        try:
+            r = requests.get(f'http://{machine_address}/drain', verify = False, timeout = 0.2)
+            print(f'[ ok ] Drained {machine_address}')            
+        except:
+            print(f'[ERROR] Failed to drain {machine_address}')
+
+
+    def force_start(self, machine_address):
+        try:
+            r = requests.get(f'http://{machine_address}/start', verify = False, timeout = 0.2)
+            print(f'[ ok ] Started {machine_address}')            
+        except:
+            print(f'[ERROR] Failed to start {machine_address}')
+
+
     def inspect(self):
         active_jobs = []
         past_jobs = []
@@ -82,6 +98,8 @@ class Monitor(object):
                 continue
             machines.append({
                 'name': machine.name(),
+                'ip': machine.ip,
+                'port': machine.port,
                 'pipeline': data['server']['pipeline'],
             })
             for job_status in data['jobs']:

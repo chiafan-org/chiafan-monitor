@@ -20,6 +20,14 @@ def home():
                            machines = payload['machines'])
 
 
+@app.route('/control', methods=['GET', 'POST'])
+def control():
+    if request.json['action'] == 'drain':
+        Monitor().drain(request.json['target'])
+    elif request.json['action'] == 'start':
+        Monitor().force_start(request.json['target'])
+
+
 @click.command()
 @click.option('machines', '--machine', multiple = True,
               type = click.STRING, help = 'machine addresses')
