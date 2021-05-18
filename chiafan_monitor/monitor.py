@@ -96,11 +96,18 @@ class Monitor(object):
                     'pipeline': 'dead',
                 })
                 continue
+            server_info = data['server']
+            used_cpu_count = server_info['used_cpu_count']
+            cpu_count = server_info['cpu_count']
+            active_job_count = server_info['active_jobs']
+            num_workers = server_info['num_workers']
             machines.append({
                 'name': machine.name(),
                 'ip': machine.ip,
                 'port': machine.port,
                 'pipeline': data['server']['pipeline'],
+                'cpus': f'{used_cpu_count} / {cpu_count}',
+                'workers': f'{active_job_count} / {num_workers}',
             })
             for job_status in data['jobs']:
                 job_entry = {

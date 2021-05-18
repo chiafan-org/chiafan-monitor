@@ -4,7 +4,9 @@
     <thead>
       <tr>
         <th>Machine</th>
-        <th>Pipeline</th>
+        <th>Status</th>
+        <th>CPU</th>
+        <th>Job / Worker</th>
         <th>Controller</th>
       </tr>
     </thead>
@@ -25,20 +27,22 @@
           <span class="ui blue label"> {{ item.pipeline }} </span>
           {% endif %}
         </td>
+        <td>{{ item.cpus }}</td>
+        <td>{{ item.workers }}</td>
         <td>
           {% if item.pipeline == 'stopped' or item.pipeline == 'draining' %}
           <button class="ui right labeled icon button small play green"
                   type="button"
                   onclick="fetch('/control', {method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify({target: '{{ item.ip }}:{{ item.port }}', action: 'start'})}).then(() => { location.reload(); });">
             <i class="right play icon"></i>
-            Start / Restart
+            Start
           </button>
           {% elif item.pipeline == 'working' %}
           <button class="ui right labeled icon button small orange"
                   type="button"
                   onclick="fetch('/control', {method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify({target: '{{ item.ip }}:{{ item.port }}', action: 'drain'})}).then(() => { location.reload(); });">
             <i class="right angle double icon"></i>
-            Ask it to drain
+            Drain
           </button>
           {% endif %}
         </td>
