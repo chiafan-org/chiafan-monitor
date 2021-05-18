@@ -15,7 +15,25 @@
       <tr>
         <td> {{ item.machine }} </td>
         <td> {{ item.jobName }} </td>
-        <td> {{ item.age }} </td>
+        <td>
+          {% if item.stageDetails|length > 0 %}
+          <div class="ui accordion">
+            <div class="active title">
+              <i class="dropdown icon"></i>
+              {{ item.age }}
+            </div>
+            <div class="content">
+              <ol>
+                {% for s in item.stageDetails %}
+                <li> {{ s.stage }} - {{ s.time_consumption }}  </li>
+                {% endfor %}
+              </ol>
+            </div>
+          </div>
+          {% else %}
+          {{ item.age }}
+          {% endif %}
+        </td>
         <td>
           {% if item.stage == 'SUCCESS' %}
           <span class="ui olive label"> {{ item.stage }} </span>

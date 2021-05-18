@@ -116,6 +116,7 @@ class Monitor(object):
                     'age': job_status['age'],
                     'stage': job_status['stage'],
                     'progress': job_status['progress'],
+                    'stageDetails': job_status['stageDetails'],
                 }
                 if job_status['stage'] in ['SUCCESS', 'FAIL']:
                     past_jobs.append(job_entry)
