@@ -13,8 +13,33 @@
     <tbody>
       {% for item in jobs %}
       <tr>
-        <td> {{ item.machine }} </td>
-        <td> {{ item.jobName }} </td>
+        <td> {{ item.machine.name }} </td>
+        <td>
+          {% if item.stage == 'SUCCESS' %}
+          <div class="ui green label">
+            <i class="thumbs up icon"></i>
+            {{ item.jobName }}
+          </div>
+          {% elif item.stage == 'FAIL' %}
+          <div class="ui red label">
+            <i class="thumbs down icon"></i>
+            {{ item.jobName }}
+          </div>
+          {% elif item.stage == 'ABORT' %}
+          <div class="ui red label">
+            <i class="thumbs down icon"></i>
+            {{ item.jobName }}
+          </div>
+          {% else %}
+          <div class="ui blue label">
+            <i class="clock icon"></i>
+            {{ item.jobName }}
+            <i class="delete icon"
+               onclick="fetch('/abort', {method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify({machine: '{{ item.machine.name }}:{{ item.machine.port }}', target: '{{ item.jobName }}'})}).then(() => { location.reload(); });">
+            </i>
+          </div>
+          {% endif %}
+        </td>
         <td>
           {% if item.stageDetails|length > 0 %}
           <div class="ui accordion">
@@ -38,6 +63,8 @@
           {% if item.stage == 'SUCCESS' %}
           <span class="ui olive label"> {{ item.stage }} </span>
           {% elif item.stage == 'FAIL' %}
+          <span class="ui red label"> {{ item.stage }} </span>
+          {% elif item.stage == 'ABORT' %}
           <span class="ui red label"> {{ item.stage }} </span>
           {% else %}
           <span class="ui blue label"> {{ item.stage }} </span>

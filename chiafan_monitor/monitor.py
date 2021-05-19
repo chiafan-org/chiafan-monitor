@@ -76,6 +76,21 @@ class Monitor(object):
             print(f'[ERROR] Failed to drain {machine_address}')
 
 
+    def abort_job(self, machine_address, target):
+        try:
+            print(f'Attempt abort http://{machine_address}/abort - {target}')
+            r = requests.post(f'http://{machine_address}/abort',
+                             data = {
+                                 'target': target,
+                             },
+                             verify = False, timeout = 3.0)
+            if r.status_code == 404:
+                raise RuntimeError('404')
+            print(f'[ ok ] Aborted {machine_address} - {target}')
+        except:
+            print(f'[ERROR] Failed to reach {machine_address}, therefore cannot abort {target}.')
+
+
     def force_start(self, machine_address):
         try:
             r = requests.get(f'http://{machine_address}/start', verify = False, timeout = 0.2)
@@ -111,7 +126,10 @@ class Monitor(object):
             })
             for job_status in data['jobs']:
                 job_entry = {
-                    'machine': machine.ip,
+                    'machine': {
+                        'name': machine.ip,
+                        'port': machine.port,
+                    },
                     'jobName': job_status['name'],
                     'age': job_status['age'],
                     'stage': job_status['stage'],

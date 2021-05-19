@@ -26,6 +26,14 @@ def control():
         Monitor().drain(request.json['target'])
     elif request.json['action'] == 'start':
         Monitor().force_start(request.json['target'])
+    return redirect(url_for('home'))
+
+
+@app.route('/abort', methods=['GET', 'POST'])
+def abort():
+    Monitor().abort_job(request.json['machine'],
+                        request.json['target'])
+    return redirect(url_for('home'))
 
 
 @click.command()
