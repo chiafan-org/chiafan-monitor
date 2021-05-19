@@ -80,7 +80,7 @@ class Monitor(object):
         try:
             print(f'Attempt abort http://{machine_address}/abort - {target}')
             r = requests.post(f'http://{machine_address}/abort',
-                             data = {
+                             json = {
                                  'target': target,
                              },
                              verify = False, timeout = 3.0)
